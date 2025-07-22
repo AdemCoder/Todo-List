@@ -1,4 +1,3 @@
-// Select elements
 const input = document.querySelector('.addInput');
 const addButton = document.querySelector('.addBtn');
 const taskContainer = document.querySelector('.taskContainer');
@@ -25,10 +24,10 @@ addButton.onclick = function () {
 
 // Function to render tasks in DOM
 function renderTasks() {
-  taskContainer.innerHTML = ""; // Clear current tasks
+  taskContainer.innerHTML = ""; 
 
   tasks.forEach((task) => {
-    // Create task wrapper
+   
     const wrapper = document.createElement('div');
     wrapper.classList.add('taskLabel');
 
@@ -47,7 +46,7 @@ function renderTasks() {
     completeBtn.innerHTML = '<img src="icons8-done-50.png" alt="Complete">';
     completeBtn.onclick = () => {
       task.completed = !task.completed;
-      addToLocalStorage(tasks); // Save updated state
+      addToLocalStorage(tasks); 
       renderTasks();
     };
 
@@ -57,11 +56,11 @@ function renderTasks() {
     deleteBtn.innerHTML = '<img src="icons8-delete-30.png" alt="Delete">';
     deleteBtn.onclick = () => {
       tasks = tasks.filter(t => t.id !== task.id);
-      addToLocalStorage(tasks); // Save updated state
+      addToLocalStorage(tasks);
       renderTasks();
     };
 
-    // Append everything
+ 
     wrapper.appendChild(taskDiv);
     wrapper.appendChild(completeBtn);
     wrapper.appendChild(deleteBtn);
