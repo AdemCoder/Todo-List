@@ -4,7 +4,8 @@ const addButton = document.querySelector('.addBtn');
 const taskContainer = document.querySelector('.taskContainer');
 
 // Array to hold task objects
-let tasks = [];
+let tasks = getFromLocalStorage();
+renderTasks();
 
 // Event listener for "ADD" button
 addButton.onclick = function () {
@@ -17,6 +18,7 @@ addButton.onclick = function () {
     };
     tasks.push(task);
     input.value = "";
+    addToLocalStorage(tasks);
     renderTasks();
   }
 };
@@ -34,7 +36,6 @@ function renderTasks() {
     const taskDiv = document.createElement('div');
     taskDiv.classList.add('task');
     taskDiv.textContent = task.title;
-    addToLocaleStorage(tasks);
     if (task.completed) {
       taskDiv.style.textDecoration = 'line-through';
       taskDiv.style.opacity = '0.6';
@@ -46,6 +47,7 @@ function renderTasks() {
     completeBtn.innerHTML = '<img src="icons8-done-50.png" alt="Complete">';
     completeBtn.onclick = () => {
       task.completed = !task.completed;
+      addToLocalStorage(tasks); // Save updated state
       renderTasks();
     };
 
@@ -55,6 +57,7 @@ function renderTasks() {
     deleteBtn.innerHTML = '<img src="icons8-delete-30.png" alt="Delete">';
     deleteBtn.onclick = () => {
       tasks = tasks.filter(t => t.id !== task.id);
+      addToLocalStorage(tasks); // Save updated state
       renderTasks();
     };
 
@@ -66,6 +69,17 @@ function renderTasks() {
   });
 }
 
-function addToLocaleStorage(tasks){
-  window.localStorage.setItem('tasks', JSON.stringify(tasks));
+// Save tasks to localStorage
+function addToLocalStorage(todo) {
+  localStorage.setItem('tasks', JSON.stringify(todo));
+}
+
+// Load tasks from localStorage
+function getFromLocalStorage() {
+  try {
+    const todos = JSON.parse(localStorage.getItem('tasks'));
+    return Array.isArray(todos) ? todos : [];
+  } catch (e) {
+    return [];
+  }
 }
